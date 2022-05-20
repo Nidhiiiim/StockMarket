@@ -8,7 +8,7 @@ A tool to analyse NSE Stock Data for Nifty 50 stocks
 - Visualizations showing trends for the stock for 5 Day, 1 Month, 6 Months and 1 Year 
 
 ## Architecture Diagram
-![Architecture Diagram](https://raw.githubusercontent.com/nehaprabhavalkar/Stock_Market_Analysis/dev/images/architecture_diagram.png?raw=true)
+![Architecture Diagram](https://github.com/Nidhiiiim/StockMarket/blob/423bf5fa4f3106f63ace9a118335fb4cf0483974/images/architecture_diagram.png)
 
 ## Tech Stack
 #### Python Libraries
