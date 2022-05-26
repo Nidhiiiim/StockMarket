@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <script src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"></script> 
+      <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+      <!-- First include jquery js -->
+      <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+      <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+      </script>
+
+      <!-- Then include bootstrap js -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+      <!-- Latest compiled and minified JavaScript -->
+      <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+      <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
+      <!-- Latest compiled and minified CSS -->
+      <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+      
+      
+  
+  </head>
+  <body>
+      <div class="header">
+          <h2>
+              Graph for {{stock}}
+          </h2>
+      </div>
+  </body>
+  
+  <div class="chart" id="bargraph">
+      <script>
+          var graphs = {{graphJSON | safe}};
+          Plotly.plot('bargraph',graphs,{});
+      </script>
+  </div>     
+  <div class="center1">
+      
+      <button class="bt" id="5Day" data-bs-toggle="button" autocomplete="off" onclick="display(this.id, '{{stock}}');highlight_button(this.id)">5Day</button>
+         
+      </div>
+
+          <div class="center2"> 
+              
+              <button class="bt" id="1Month" data-bs-toggle="button" autocomplete="off" onclick="display(this.id, '{{stock}}');highlight_button(this.id)">1Month</button>
+          
+          </div>
+          <div class="center3"> 
+              
+              <button class="bt" id="6Month" data-bs-toggle="button" autocomplete="off" onclick="display(this.id, '{{stock}}');highlight_button(this.id)">6Month</button>
+             
+          </div>
+          <div class="center4"> 
+             
+              <button class="bt" id="1Year" data-bs-toggle="button" autocomplete="off" onclick="display(this.id, '{{stock}}');highlight_button(this.id)">1Year</button>
+             
+          </div>
+              
+</script>
+
+<script>
+  var setInnerHTML = function(elm, html) {
+elm.innerHTML = html;
+Array.from(elm.querySelectorAll("script")).forEach( oldScript => {
+  const newScript = document.createElement("script");
+  Array.from(oldScript.attributes)
+    .forEach( attr => newScript.setAttribute(attr.name, attr.value) );
+  newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+  oldScript.parentNode.replaceChild(newScript, oldScript);
+});
+}
+
+   function display(clicked_id, stock_name) {
+
+      // var req = new XMLHttpRequest();
+      // var url = "/update";
+      var send = {id : clicked_id, name : stock_name};
+
+      // req.open("POST", url, true);
+
+      // req.setRequestHeader("Content-type", "application/json");
+
+      // req.onreadystatechange = function(){
+      //     if(req.readyState == 4){
+      //         if(req.status == 200){
+                  
+      //             //window.location.href = "/";
+
+      //             var graphs = {{graphJSON | safe}};
+      //             Plotly.plot('bargraph',graphs,{}); 
+
+      //         }
+      //     }
+      // }
+      
+      // req.send(JSON.stringify(send));
+
+      $.ajax({
+      type: "POST",
+      url: "/update",
+      data: JSON.stringify(send),
+      contentType: "application/json",
+      dataType: 'json',
+      success: function(result) {
+          graphJSON = result.JSON
+          console.log(result);
+      } 
+});
+
+}
+
+
+  function highlight_button(clicked_id) {
+                
+                var btn1 = document.getElementById("5Day");
+                var btn2 = document.getElementById("1Month");
+                var btn3 = document.getElementById("6Month");
+                var btn4 = document.getElementById("1Year");
+
+                btn1.className = "bt";
+                btn2.className = "bt";
+                btn3.className = "bt";
+                btn4.className = "bt";
+
+                if(clicked_id == "5Day")
+                {
+                  btn1.className = "bt-highlighted";
+                }
+                else if(clicked_id == "1Month")
+                {
+                  btn2.className = "bt-highlighted";
+                }
+                else if(clicked_id == "6Month")
+                {
+                  btn3.className = "bt-highlighted";
+                }
+                else if(clicked_id == "1Year")
+                {
+                  btn4.className = "bt-highlighted";
+                }
+               
+              }
+        
+</script>
+
+</html>
+
+        
+        
+    
+    </head>
+    <body>
+        <div class="header">
+            <h2>
+                Graph for {{stock}}
+            </h2>
+        </div>
+    </body>
+    
+    <div class="chart" id="bargraph">
+        <script>
+            var graphs = {{graphJSON | safe}};
+            Plotly.plot('bargraph',graphs,{});
+        </script>
+    </div>     
+    <div class="center1">
+        
+        <button class="bt" id="5Day" data-bs-toggle="button" autocomplete="off" onclick="display(this.id, '{{stock}}');highlight_button(this.id)">5Day</button>
+           
+        </div>
+ 
+            <div class="center2"> 
+                
+                <button class="bt" id="1Month" data-bs-toggle="button" autocomplete="off" onclick="display(this.id, '{{stock}}');highlight_button(this.id)">1Month</button>
+            
+            </div>
+            <div class="center3"> 
+                
+                <button class="bt" id="6Month" data-bs-toggle="button" autocomplete="off" onclick="display(this.id, '{{stock}}');highlight_button(this.id)">6Month</button>
+               
+            </div>
+            <div class="center4"> 
+               
+                <button class="bt" id="1Year" data-bs-toggle="button" autocomplete="off" onclick="display(this.id, '{{stock}}');highlight_button(this.id)">1Year</button>
+               
+            </div>
+                
+</script>
+
+<script>
+    var setInnerHTML = function(elm, html) {
+  elm.innerHTML = html;
+  Array.from(elm.querySelectorAll("script")).forEach( oldScript => {
+    const newScript = document.createElement("script");
+    Array.from(oldScript.attributes)
+      .forEach( attr => newScript.setAttribute(attr.name, attr.value) );
+    newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+    oldScript.parentNode.replaceChild(newScript, oldScript);
+  });
+}
+
+     function display(clicked_id, stock_name) {
+
+        // var req = new XMLHttpRequest();
+        // var url = "/update";
+        var send = {id : clicked_id, name : stock_name};
+
+        // req.open("POST", url, true);
+
+        // req.setRequestHeader("Content-type", "application/json");
+
+        // req.onreadystatechange = function(){
+        //     if(req.readyState == 4){
+        //         if(req.status == 200){
+                    
+        //             //window.location.href = "/";
+
+        //             var graphs = {{graphJSON | safe}};
+        //             Plotly.plot('bargraph',graphs,{}); 
+
+        //         }
+        //     }
+        // }
+        
+        // req.send(JSON.stringify(send));
+
+        $.ajax({
+        type: "POST",
+        url: "/update",
+        data: JSON.stringify(send),
+        contentType: "application/json",
+        dataType: 'json',
+        success: function(result) {
+            graphJSON = result.JSON
+            console.log(result);
+        } 
+});
+ 
+}
+
+
+    function highlight_button(clicked_id) {
+                  
+                  var btn1 = document.getElementById("5Day");
+                  var btn2 = document.getElementById("1Month");
+                  var btn3 = document.getElementById("6Month");
+                  var btn4 = document.getElementById("1Year");
+
+                  btn1.className = "bt";
+                  btn2.className = "bt";
+                  btn3.className = "bt";
+                  btn4.className = "bt";
+
+                  if(clicked_id == "5Day")
+                  {
+                    btn1.className = "bt-highlighted";
+                  }
+                  else if(clicked_id == "1Month")
+                  {
+                    btn2.className = "bt-highlighted";
+                  }
+                  else if(clicked_id == "6Month")
+                  {
+                    btn3.className = "bt-highlighted";
+                  }
+                  else if(clicked_id == "1Year")
+                  {
+                    btn4.className = "bt-highlighted";
+                  }
+                 
+                }
+          
+</script>
+
+</html>

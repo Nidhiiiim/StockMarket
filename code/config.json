@@ -1,0 +1,10 @@
+{
+    "from_date" :  "21-12-2021",
+    "to_date" : "28-12-2021",
+    "holiday_script_path" : "code/holiday_check.py",
+    "current_data_script_path" : "code/current.py",
+    "dq_script_path" : "code/data_quality_check.py",
+    "holiday_tbl_name" : "holidays",
+    "sector_tbl_name" : "sectors",
+    "stock_tbl_name" : "stocks"
+}
